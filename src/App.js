@@ -57,6 +57,7 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [seletedId, setSelectedId] = useState("tt1375666");
   useEffect(
     function () {
       async function fetchMovies() {
@@ -101,8 +102,14 @@ export default function App() {
           {error && <ErrorMessage {...{ error }} />}
         </Box>
         <Box>
-          <Sumary {...{ watched }} />
-          <WatchedMoviesList {...{ watched }} />
+          {seletedId ? (
+            <SelectedMovie />
+          ) : (
+            <>
+              <Sumary {...{ watched }} />
+              <WatchedMoviesList {...{ watched }} />
+            </>
+          )}
         </Box>
       </Main>
     </>
@@ -194,6 +201,11 @@ function Movies({ movie }) {
     </li>
   );
 }
+
+function SelectedMovie({ seletedId }) {
+  return <div className="detail">{seletedId}</div>;
+}
+
 function Sumary({ watched }) {
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
